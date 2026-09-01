@@ -1,4 +1,4 @@
-# 📊 Pipe Flow Calculation (Siamraj Pump System)
+# 📊 Pipe Flow Calculator (Siamraj Pump System)
 
 <div align="center" style="margin: 20px 0;">
   <a href="https://patipan-suksangiam.github.io/tdh-calculator/" target="_blank" style="background-color: #0d47a1; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 16px; font-weight: bold; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
