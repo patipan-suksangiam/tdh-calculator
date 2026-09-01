@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Siamraj Pump Calculation Report</title>
+
+    <style>
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f4f6f9; color: #333; }
+
+        .container { max-width: 1150px; margin: 0 auto; background: white; padding: 35px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+
+        
+
+        h1 { color: #0d47a1; border-bottom: 3px solid #0d47a1; padding-bottom: 12px; margin-bottom: 5px; font-size: 26px; display: flex; align-items: center; gap: 10px; }
+
+        .credit-header { color: #546e7a; font-size: 16px; font-weight: 500; margin-bottom: 25px; font-style: italic; }
+
+
+
+        h3 { color: #37474f; margin-top: 30px; margin-bottom: 15px; border-left: 5px solid #1976d2; padding-left: 12px; font-size: 18px; }
+
+        
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+        
+
+        .input-group { margin-bottom: 10px; }
+
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13.5px; color: #546e7a; }
+
+        input, select { width: 100%; padding: 10px 12px; border: 1px solid #cfd8dc; border-radius: 6px; box-sizing: border-box; font-size: 14px; transition: border 0.2s; }
+
+        input:focus, select:focus { border-color: #1976d2; outline: none; box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1); }
+
+        .auto-field { background-color: #e3f2fd; }
+
+
+
+        .section-box { background: #fafafa; padding: 20px; border-radius: 8px; border: 1px solid #eee; margin-bottom: 20px; }
+
+        .suction-box { border-left: 4px solid #4caf50; }
+
+        .discharge-box { border-left: 4px solid #f44336; }
+
+        
+
+        /* Table Styles */
+
+        .fitting-container, .report-container { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; margin-top: 10px; }
+
+        table { width: 100%; border-collapse: collapse; }
+
+        th { text-align: left; padding: 10px; background: #eceff1; color: #455a64; font-size: 12px; font-weight: 700; text-transform: uppercase; border-bottom: 2px solid #cfd8dc; }
+
+        td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; font-size: 13px; vertical-align: top; }
+
+        tr:last-child td { border-bottom: none; }
+
+        
+
+        tfoot { background-color: #e8eaf6; font-weight: bold; border-top: 2px solid #3f51b5; }
+
+        tfoot td { padding: 10px; color: #1a237e; font-size: 13px; }
+
+
+
+        /* Buttons */
+
+        .btn-group { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; margin-top: 30px; }
+
+        .btn-calc { padding: 16px; background: linear-gradient(135deg, #1565c0, #0d47a1); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; box-shadow: 0 4px 6px rgba(13, 71, 161, 0.2); }
+
+        .btn-add-report { padding: 16px; background: #2e7d32; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px rgba(46, 125, 50, 0.2); }
+
+        .btn-add-report:hover { background: #1b5e20; }
+
+        
+
+        .btn-add { background: #2e7d32; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 600; margin: 10px; }
+
+        .btn-remove { background: #c62828; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+
+        .btn-print { background: #546e7a; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; margin-top: 15px; float: right; }
+
+        
+
+        .btn-row-delete { background: #ef5350; color: white; border: none; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+
+        .btn-row-delete:hover { background: #d32f2f; }
+
+
+
+        /* Results Area */
+
+        #result-area { margin-top: 30px; display: none; border-top: 2px dashed #cfd8dc; padding-top: 20px; margin-bottom: 20px; }
+
+        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+
+        .result-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; }
+
+        .result-card h4 { margin: 0 0 10px 0; color: #0d47a1; font-size: 14px; border-bottom: 2px solid #e3f2fd; padding-bottom: 5px; }
+
+        .highlight-val { font-size: 20px; color: #0d47a1; font-weight: 800; display: block; margin-top: 5px; }
+
+        .highlight-unit { font-size: 12px; color: #78909c; font-weight: normal; }
+
+
+
+        /* Report Section Styles */
+
+        #report-section { display: none; margin-top: 40px; padding-top: 20px; border-top: 4px solid #37474f; }
+
+        .report-header { display: none; text-align: center; margin-bottom: 20px; }
+
+        .report-header h2 { margin: 5px 0; color: #000; }
+
+        .report-footer { display: none; margin-top: 30px; font-size: 12px; color: #666; text-align: center; border-top: 1px solid #ddd; padding-top: 10px; }
+
+
+
+        /* PRINT MEDIA QUERY */
+
+        @media print {
+
+            @page { size: landscape; margin: 10mm; }
+
+            body { background: white; padding: 0; font-size: 11px; }
+
+            .container { box-shadow: none; border: none; margin: 0; padding: 0; max-width: 100%; width: 100%; }
+
+            .no-print, .input-group, .btn-group, h3, .fitting-container, #result-area, .btn-add, .btn-remove, .btn-row-delete { display: none !important; }
+
+            
+
+            #report-section { display: block !important; border: none; margin-top: 0; }
+
+            .report-header { display: block; }
+
+            .report-footer { display: block; }
+
+            
+
+            table { width: 100%; border: 1px solid #000; }
+
+            th { background: #eee !important; color: #000; border: 1px solid #000; -webkit-print-color-adjust: exact; padding: 5px; font-size: 11px; }
+
+            td, tfoot td { border: 1px solid #000; padding: 5px; font-size: 11px; }
+
+            tfoot { background-color: #eee !important; -webkit-print-color-adjust: exact; }
+
+            
+
+            /* Hide Action Column in Print */
+
+            th.action-col, td.action-col { display: none; }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+<div class="container">
+
+    <div class="no-print">
+
+        <h1>🏭 Pump System Calculator (Pro)</h1>
+
+        <div class="credit-header">By Patipan Suksangiam</div>
+
+        
+
+        <!-- Project Info -->
+
+        <div class="input-group">
+
+            <label>Tag Number / Service</label>
+
+            <input type="text" id="tag" placeholder="e.g. P-101A Feed Pump">
+
+        </div>
+
+
+
+        <!-- Liquid Selection -->
+
+        <div style="background: #e1f5fe; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #b3e5fc;">
+
+            <label style="color:#0277bd; margin-bottom:8px;">💧 Select Liquid from Database:</label>
+
+            <select id="liquidSelect" onchange="updateLiquidProperties()">
+
+                <option value="custom">-- Custom / Manual Input --</option>
+
+                <optgroup label="Water (น้ำ)">
+
+                    <option value="water_20" selected>Water at 20°C (Standard)</option>
+
+                    <option value="water_40">Water at 40°C</option>
+
+                    <option value="water_60">Water at 60°C</option>
+
+                    <option value="water_80">Water at 80°C</option>
+
+                    <option value="water_100">Water at 100°C</option>
+
+                </optgroup>
+
+                <optgroup label="Fuels (เชื้อเพลิง)">
+
+                    <option value="diesel">Diesel Fuel (ดีเซล 20°C)</option>
+
+                    <option value="gasoline">Gasoline / Benzene (เบนซิน 20°C)</option>
+
+                    <option value="biodiesel">Biodiesel B100 (20°C)</option>
+
+                    <option value="ethanol">Ethanol (96%)</option>
+
+                </optgroup>
+
+                <optgroup label="Oils (น้ำมันหล่อลื่น)">
+
+                    <option value="oil_sae10">Engine Oil SAE 10 (20°C)</option>
+
+                    <option value="oil_sae30">Engine Oil SAE 30 (20°C)</option>
+
+                    <option value="oil_sae40">Engine Oil SAE 40 (20°C)</option>
+
+                </optgroup>
+
+                <optgroup label="Chemicals">
+
+                    <option value="methanol">Methanol</option>
+
+                    <option value="h2so4_98">Sulfuric Acid (98%)</option>
+
+                    <option value="naoh_50">Caustic Soda (50%)</option>
+
+                </optgroup>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- 1. Data Inputs -->
+
+        <h3>1. Process Data & Pipe (ข้อมูลท่อและของไหล)</h3>
+
+        <div class="grid-3">
+
+            <div class="input-group">
+
+                <label>Fluid Name</label>
+
+                <input type="text" id="fluid" value="Water at 20°C" class="auto-field">
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Density (kg/m³)</label>
+
+                <input type="number" id="density" value="998.2" class="auto-field">
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Viscosity (cP)</label>
+
+                <input type="number" id="viscosity" value="1.002" class="auto-field">
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Op. Temp (°C)</label>
+
+                <input type="number" id="temp" value="20" class="auto-field">
+
+            </div>
+
+            
+
+            <!-- NPSH Toggle & Input Block -->
+
+            <div class="input-group">
+
+                <label>NPSHa Option</label>
+
+                <div style="background:#fff; border:1px solid #cfd8dc; border-radius:6px; padding:8px;">
+
+                    <label style="cursor:pointer; display:flex; align-items:center; font-size:13px;">
+
+                        <input type="checkbox" id="calcNPSH" onchange="toggleNPSH()" style="width:auto; margin-right:8px;"> 
+
+                        <strong>Calculate NPSHa</strong>
+
+                    </label>
+
+                    <div id="vpContainer" style="margin-top:5px; display:none;">
+
+                        <input type="number" id="vp" value="2.34" class="auto-field" style="width:100%; box-sizing:border-box;" placeholder="Vapor Press.">
+
+                        <small style="font-size:11px; color:#546e7a;">Vapor Press. (kPa a)</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Flow Rate with Unit Selection -->
+
+            <div class="input-group">
+
+                <label>Flow Rate</label>
+
+                <div style="display:flex; gap:5px;">
+
+                    <input type="number" id="flow" value="50" step="0.1" style="border: 2px solid #2e7d32; flex:2;">
+
+                    <select id="flowUnit" style="flex:1; background-color:#f1f8e9;">
+
+                        <option value="m3h">m³/h</option>
+
+                        <option value="lpm">L/min</option>
+
+                        <option value="gpm">US GPM</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="grid-3">
+
+            <!-- Pipe ID Selection -->
+
+            <div class="input-group">
+
+                <label>Pipe Size (ANSI Sch 40)</label>
+
+                <div style="display:flex; flex-direction:column; gap:5px;">
+
+                    <select id="pipeSelect" onchange="checkCustomPipe()" style="background-color:#fffde7; border-color:#fbc02d;">
+
+                        <option value="15.8">1/2" (DN15) - ID 15.8mm</option>
+
+                        <option value="20.9">3/4" (DN20) - ID 20.9mm</option>
+
+                        <option value="26.6">1" (DN25) - ID 26.6mm</option>
+
+                        <option value="35.1">1-1/4" (DN32) - ID 35.1mm</option>
+
+                        <option value="40.9">1-1/2" (DN40) - ID 40.9mm</option>
+
+                        <option value="52.5">2" (DN50) - ID 52.5mm</option>
+
+                        <option value="62.7">2-1/2" (DN65) - ID 62.7mm</option>
+
+                        <option value="77.9" selected>3" (DN80) - ID 77.9mm</option>
+
+                        <option value="102.3">4" (DN100) - ID 102.3mm</option>
+
+                        <option value="128.2">5" (DN125) - ID 128.2mm</option>
+
+                        <option value="154.1">6" (DN150) - ID 154.1mm</option>
+
+                        <option value="202.7">8" (DN200) - ID 202.7mm</option>
+
+                        <option value="254.5">10" (DN250) - ID 254.5mm</option>
+
+                        <option value="303.2">12" (DN300) - ID 303.2mm</option>
+
+                        <option value="333.3">14" (DN350) - ID 333.3mm</option>
+
+                        <option value="381.0">16" (DN400) - ID 381.0mm</option>
+
+                        <option value="428.7">18" (DN450) - ID 428.7mm</option>
+
+                        <option value="477.8">20" (DN500) - ID 477.8mm</option>
+
+                        <option value="574.6">24" (DN600) - ID 574.6mm</option>
+
+                        <option value="custom">-- Custom / Other ID (mm) --</option>
+
+                    </select>
+
+                    <input type="number" id="customPipeInput" placeholder="Enter ID in mm" style="display:none; border:1px solid #fbc02d;" value="77.9">
+
+                </div>
+
+            </div>
+
+
+
+            <div class="input-group">
+
+                <label>Length (m)</label>
+
+                <input type="number" id="length" value="100">
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Material</label>
+
+                <select id="material">
+
+                    <option value="0.045">Carbon Steel (0.045)</option>
+
+                    <option value="0.015">Stainless Steel (0.015)</option>
+
+                    <option value="0.0015">PVC / HDPE (0.0015)</option>
+
+                    <option value="0.26">Galvanized Iron (0.15)</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 2. Equipment Loss -->
+
+        <h3>2. Equipment Pressure Drop (อุปกรณ์อื่นในเส้นท่อ)</h3>
+
+        <div class="section-box">
+
+            <div class="grid-2">
+
+                <div class="input-group">
+
+                    <label>Equip. ΔP</label>
+
+                    <div style="display:flex; gap:5px;">
+
+                        <input type="number" id="equipDrop" value="0" step="0.01" style="flex:2;">
+
+                        <select id="equipDropUnit" style="flex:1;">
+
+                            <option value="bar">bar</option>
+
+                            <option value="psi">psi</option>
+
+                            <option value="kgcm2">kg/cm²</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Margin (%)</label>
+
+                    <input type="number" id="margin" value="5">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 3. Fittings -->
+
+        <h3>3. Fittings (อุปกรณ์ฟิตติ้ง)</h3>
+
+        <div class="fitting-container">
+
+            <table id="fittingTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th style="width: 55%;">Fitting Type</th>
+
+                        <th style="width: 25%;">Qty</th>
+
+                        <th style="width: 20%;">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody></tbody>
+
+            </table>
+
+            <button type="button" class="btn-add" onclick="addFittingRow()">+ Add Fitting</button>
+
+        </div>
+
+
+
+        <!-- 4. Conditions -->
+
+        <h3>4. System Conditions</h3>
+
+        <div class="grid-2">
+
+            <div class="section-box suction-box">
+
+                <h4 style="margin-top:0; color:#2e7d32;">Suction Side</h4>
+
+                <div class="input-group">
+
+                    <label>P1 (bar g)</label>
+
+                    <input type="number" id="p1" value="0">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Z1 (m)</label>
+
+                    <input type="number" id="z1" value="2">
+
+                </div>
+
+            </div>
+
+            <div class="section-box discharge-box">
+
+                <h4 style="margin-top:0; color:#c62828;">Discharge Side</h4>
+
+                <div class="input-group">
+
+                    <label>P2 (bar g)</label>
+
+                    <input type="number" id="p2" value="2">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Z2 (m)</label>
+
+                    <input type="number" id="z2" value="15">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Calculation Button Group -->
+
+        <div class="btn-group">
+
+            <button type="button" class="btn-calc" onclick="calculate()">CALCULATE</button>
+
+            <button type="button" class="btn-add-report" onclick="addToReport()" id="btnAddReport" disabled style="opacity:0.5; cursor:not-allowed;">
+
+                <span>+ ADD TO REPORT</span>
+
+            </button>
+
+        </div>
+
+
+
+        <!-- Live Result Preview -->
+
+        <div id="result-area">
+
+            <h3>Current Calculation Result</h3>
+
+            <div class="result-grid">
+
+                <div class="result-card">
+
+                    <h4>Flow</h4>
+
+                    <span class="highlight-val" id="resVel">-</span> <span class="highlight-unit">m/s</span>
+
+                </div>
+
+                <div class="result-card">
+
+                    <h4>Total Friction</h4>
+
+                    <span class="highlight-val" id="resTotalFriction">-</span> <span class="highlight-unit">m</span>
+
+                </div>
+
+                <div class="result-card" style="background: #e3f2fd;">
+
+                    <h4>TDH</h4>
+
+                    <span class="highlight-val" id="resTDH">-</span> <span class="highlight-unit">m</span>
+
+                </div>
+
+                <div class="result-card" style="background: #e0f7fa;">
+
+                    <h4>Press. Drop</h4>
+
+                    <span class="highlight-val" id="resPDrop">-</span> <span class="highlight-unit" id="resPDropUnit">bar</span>
+
+                </div>
+
+                <div class="result-card" id="cardNPSHa" style="background: #f1f8e9; display:none;">
+
+                    <h4>NPSHa</h4>
+
+                    <span class="highlight-val" id="resNPSHa">-</span> <span class="highlight-unit">m</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div> <!-- End no-print -->
+
+
+
+    <!-- REPORT SECTION (Printable) -->
+
+    <div id="report-section">
+
+        <div class="report-header">
+
+            <h2>SIAMRAJ PUBLIC COMPANY LIMITED - PUMP CALCULATION REPORT</h2>
+
+            <div class="credit-header" style="margin-bottom:15px; font-size:14px;">By Patipan Suksangiam</div>
+
+            <p>System Head Calculation (Crane TP-410 Method)</p>
+
+            <p style="font-size:14px;">Date: <span id="reportDate"></span></p>
+
+        </div>
+
+
+
+        <h3>Project Summary Report</h3>
+
+        <div class="report-container">
+
+            <table id="reportTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th style="width:3%;">#</th>
+
+                        <th style="width:10%;">Tag No.</th>
+
+                        <th style="width:10%;">Service</th>
+
+                        <th style="width:9%;">Flow</th>
+
+                        <th style="width:9%;">Pipe (Size/Len)</th>
+
+                        <th style="width:10%;">Press. (bar g)</th>
+
+                        <th style="width:15%;">Fitting Details</th>
+
+                        <th style="width:7%;">Total Frict. (m)</th>
+
+                        <th style="width:7%;">Total P.Drop</th>
+
+                        <th style="width:7%;">TDH (m)</th>
+
+                        <th style="width:8%;">NPSHa (m)</th>
+
+                        <th class="action-col" style="width:5%;">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="reportBody">
+
+                    <!-- Rows added here -->
+
+                </tbody>
+
+                <tfoot id="reportFooter" style="display:none;">
+
+                    <tr>
+
+                        <td colspan="7" style="text-align:right;">GRAND TOTAL (ผลรวม):</td>
+
+                        <td id="totalFrictionSum">-</td>
+
+                        <td id="totalPDropSum">-</td>
+
+                        <td id="totalTDHSum">-</td>
+
+                        <td colspan="2"></td>
+
+                    </tr>
+
+                </tfoot>
+
+            </table>
+
+        </div>
+
+        
+
+        <div class="no-print">
+
+            <button type="button" class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+
+            <button type="button" class="btn-remove" style="float:right; margin-top:15px; margin-right:10px; background:#777;" onclick="clearReport()">Clear All Rows</button>
+
+        </div>
+
+
+
+        <div class="report-footer">
+
+            Generated by Siamraj Pump Calculator | Engineering Department | By Patipan Suksangiam<br>
+
+            Note: Calculations based on Darcy-Weisbach & Swamee-Jain equations. Standard safety margin applied.
+
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+
+<script>
+
+    // --- DATA & STATE ---
+
+    let currentResult = null;
+
+    let reportCount = 0;
+
+    
+
+    // Aggregates for footer
+
+    let sumFriction = 0;
+
+    let sumTDH = 0;
+
+    let sumPDrop = 0;
+
+    let lastPDropUnit = ""; 
+
+
+
+    // DB & Fittings (Same as before)
+
+    const liquidDB = {
+
+        "water_10": { name: "Water at 10°C", rho: 999.7, mu: 1.307, vp: 1.23, t: 10 },
+
+        "water_20": { name: "Water at 20°C", rho: 998.2, mu: 1.002, vp: 2.34, t: 20 },
+
+        "water_40": { name: "Water at 40°C", rho: 992.2, mu: 0.653, vp: 7.38, t: 40 },
+
+        "water_60": { name: "Water at 60°C", rho: 983.2, mu: 0.467, vp: 19.95, t: 60 },
+
+        "water_80": { name: "Water at 80°C", rho: 971.8, mu: 0.355, vp: 47.41, t: 80 },
+
+        "water_100":{ name: "Water at 100°C",rho: 958.4, mu: 0.282, vp: 101.3, t: 100 },
+
+        "diesel":   { name: "Diesel Fuel", rho: 832, mu: 4.0, vp: 0.4, t: 20 },
+
+        "gasoline": { name: "Gasoline (Benzene)", rho: 740, mu: 0.6, vp: 60.0, t: 20 },
+
+        "biodiesel":{ name: "Biodiesel (B100)", rho: 880, mu: 4.5, vp: 0.1, t: 20 },
+
+        "ethanol":  { name: "Ethanol (96%)", rho: 789, mu: 1.2, vp: 5.95, t: 20 },
+
+        "oil_sae10":{ name: "Engine Oil SAE 10", rho: 870, mu: 85, vp: 0.01, t: 20 },
+
+        "oil_sae30":{ name: "Engine Oil SAE 30", rho: 890, mu: 300, vp: 0.01, t: 20 },
+
+        "oil_sae40":{ name: "Engine Oil SAE 40", rho: 900, mu: 600, vp: 0.01, t: 20 },
+
+        "methanol": { name: "Methanol", rho: 792, mu: 0.59, vp: 12.8, t: 20 },
+
+        "h2so4_98": { name: "Sulfuric Acid (98%)", rho: 1840, mu: 24, vp: 0.001, t: 20 },
+
+        "naoh_50":  { name: "Caustic Soda (50%)", rho: 1525, mu: 78, vp: 0.2, t: 20 }
+
+    };
+
+
+
+    const fittingDatabase = [
+
+        { name: "90° Elbow (Std)", k: 0.75 }, { name: "90° Elbow (Long)", k: 0.45 },
+
+        { name: "45° Elbow", k: 0.35 }, { name: "Tee (Run)", k: 0.4 }, { name: "Tee (Branch)", k: 1.5 },
+
+        { name: "Gate Valve", k: 0.17 }, { name: "Globe Valve", k: 6.0 },
+
+        { name: "Check Valve (Swing)", k: 2.0 }, { name: "Check Valve (Lift)", k: 10.0 },
+
+        { name: "Butterfly Valve", k: 0.35 }, { name: "Ball Valve", k: 0.05 },
+
+        { name: "Strainer (Y)", k: 2.5 }, { name: "Entrance", k: 0.5 }, { name: "Exit", k: 1.0 }
+
+    ];
+
+
+
+    window.onload = function() { 
+
+        addFittingRow(); 
+
+        document.getElementById('reportDate').innerText = new Date().toLocaleDateString('th-TH');
+
+        toggleNPSH(); // Initialize hidden state
+
+    };
+
+
+
+    function toggleNPSH() {
+
+        const isChecked = document.getElementById('calcNPSH').checked;
+
+        const vpContainer = document.getElementById('vpContainer');
+
+        const cardNPSHa = document.getElementById('cardNPSHa');
+
+        
+
+        if (isChecked) {
+
+            vpContainer.style.display = 'block';
+
+            if(document.getElementById('result-area').style.display === 'block') {
+
+                cardNPSHa.style.display = 'block';
+
+            }
+
+        } else {
+
+            vpContainer.style.display = 'none';
+
+            cardNPSHa.style.display = 'none';
+
+        }
+
+    }
+
+
+
+    function updateLiquidProperties() {
+
+        const key = document.getElementById('liquidSelect').value;
+
+        if (key === 'custom') return;
+
+        const data = liquidDB[key];
+
+        if (data) {
+
+            document.getElementById('fluid').value = data.name;
+
+            document.getElementById('density').value = data.rho;
+
+            document.getElementById('viscosity').value = data.mu;
+
+            document.getElementById('vp').value = data.vp;
+
+            document.getElementById('temp').value = data.t;
+
+        }
+
+    }
+
+
+
+    function checkCustomPipe() {
+
+        const sel = document.getElementById('pipeSelect');
+
+        const customInput = document.getElementById('customPipeInput');
+
+        if (sel.value === 'custom') {
+
+            customInput.style.display = 'block';
+
+            customInput.focus();
+
+        } else {
+
+            customInput.style.display = 'none';
+
+        }
+
+    }
+
+
+
+    function addFittingRow() {
+
+        const table = document.getElementById('fittingTable').getElementsByTagName('tbody')[0];
+
+        const newRow = table.insertRow();
+
+        
+
+        const cell1 = newRow.insertCell(0);
+
+        let selectHTML = '<select class="fitting-select"><option value="0">-- Select --</option>';
+
+        fittingDatabase.forEach(item => { selectHTML += `<option value="${item.k}">${item.name}</option>`; });
+
+        selectHTML += '</select>';
+
+        cell1.innerHTML = selectHTML;
+
+
+
+        const cell2 = newRow.insertCell(1);
+
+        cell2.innerHTML = '<input type="number" class="fitting-qty" value="1" min="1">';
+
+
+
+        const cell3 = newRow.insertCell(2);
+
+        cell3.innerHTML = '<button type="button" class="btn-remove" onclick="removeRow(this)">x</button>';
+
+    }
+
+
+
+    function removeRow(btn) { btn.closest('tr').remove(); }
+
+
+
+    // --- CALCULATION LOGIC ---
+
+    function calculate() {
+
+        // Handle Pipe ID
+
+        let pipeID_mm = 0;
+
+        let pipeDisplay = "";
+
+        const pipeSelect = document.getElementById('pipeSelect');
+
+        if (pipeSelect.value === 'custom') {
+
+            pipeID_mm = parseFloat(document.getElementById('customPipeInput').value) || 0;
+
+            pipeDisplay = pipeID_mm + " mm (ID)";
+
+        } else {
+
+            pipeID_mm = parseFloat(pipeSelect.value);
+
+            pipeDisplay = pipeSelect.options[pipeSelect.selectedIndex].text.split(" - ")[0]; 
+
+        }
+
+
+
+        // Handle Flow Unit
+
+        let rawFlow = parseFloat(document.getElementById('flow').value) || 0;
+
+        const flowUnit = document.getElementById('flowUnit').value;
+
+        const flowUnitText = document.getElementById('flowUnit').options[document.getElementById('flowUnit').selectedIndex].text;
+
+        let flowM3H = rawFlow;
+
+        
+
+        if (flowUnit === 'lpm') {
+
+            flowM3H = rawFlow * 0.06; 
+
+        } else if (flowUnit === 'gpm') {
+
+            flowM3H = rawFlow * 0.227125; 
+
+        }
+
+
+
+        // Handle Equip Drop Unit
+
+        let rawDrop = parseFloat(document.getElementById('equipDrop').value) || 0;
+
+        const dropUnit = document.getElementById('equipDropUnit').value;
+
+        const dropUnitText = document.getElementById('equipDropUnit').options[document.getElementById('equipDropUnit').selectedIndex].text;
+
+        let equipDropBar = rawDrop;
+
+
+
+        if (dropUnit === 'psi') {
+
+            equipDropBar = rawDrop / 14.5038;
+
+        } else if (dropUnit === 'kgcm2') {
+
+            equipDropBar = rawDrop * 0.980665;
+
+        }
+
+
+
+        // Get Inputs
+
+        const inputs = {
+
+            tag: document.getElementById('tag').value || "N/A",
+
+            fluid: document.getElementById('fluid').value,
+
+            flowM3H: flowM3H, 
+
+            rawFlow: rawFlow,
+
+            flowUnitText: flowUnitText,
+
+            density: parseFloat(document.getElementById('density').value) || 998,
+
+            viscosity: parseFloat(document.getElementById('viscosity').value) || 1,
+
+            pipeID: pipeID_mm,
+
+            pipeDisplay: pipeDisplay,
+
+            length: parseFloat(document.getElementById('length').value) || 0,
+
+            roughness: parseFloat(document.getElementById('material').value),
+
+            equipDropBar: equipDropBar,
+
+            dropUnit: dropUnit,
+
+            dropUnitText: dropUnitText,
+
+            margin: parseFloat(document.getElementById('margin').value) || 0,
+
+            p1: parseFloat(document.getElementById('p1').value) || 0,
+
+            z1: parseFloat(document.getElementById('z1').value) || 0,
+
+            p2: parseFloat(document.getElementById('p2').value) || 0,
+
+            z2: parseFloat(document.getElementById('z2').value) || 0,
+
+            vp: parseFloat(document.getElementById('vp').value) || 0,
+
+            calcNPSH: document.getElementById('calcNPSH').checked
+
+        };
+
+
+
+        // Compute
+
+        const g = 9.81;
+
+        const d = inputs.pipeID / 1000;
+
+        const viscosityPaS = inputs.viscosity / 1000;
+
+        const area = (Math.PI * Math.pow(d, 2)) / 4;
+
+        const velocity = (inputs.flowM3H / 3600) / area; 
+
+        const re = (inputs.density * velocity * d) / viscosityPaS;
+
+
+
+        let f = 0.02;
+
+        if (re > 0) {
+
+            if (re < 2000) {
+
+                // Laminar flow equation (Darcy friction factor)
+
+                f = 64 / re;
+
+            } else {
+
+                // Turbulent flow equation (Swamee-Jain approx. for Colebrook-White)
+
+                f = 0.25 / Math.pow(Math.log10((inputs.roughness/1000 / (3.7 * d)) + (5.74 / Math.pow(re, 0.9))), 2);
+
+            }
+
+        }
+
+
+
+        const headLossPipe = f * (inputs.length / d) * (Math.pow(velocity, 2) / (2 * g));
+
+
+
+        let totalK = 0;
+
+        let fittingDetails = []; 
+
+        document.querySelectorAll('#fittingTable tbody tr').forEach(row => {
+
+            const select = row.querySelector('.fitting-select');
+
+            const k = parseFloat(select.value) || 0;
+
+            const qtyInput = row.querySelector('.fitting-qty');
+
+            const qty = parseFloat(qtyInput.value) || 0;
+
+            
+
+            if (k > 0 && qty > 0) {
+
+                totalK += k * qty;
+
+                const name = select.options[select.selectedIndex].text;
+
+                fittingDetails.push(`${name} (${qty})`);
+
+            }
+
+        });
+
+        const fittingSummary = fittingDetails.length > 0 ? fittingDetails.join(", ") : "-";
+
+        
+
+        const headLossFit = totalK * (Math.pow(velocity, 2) / (2 * g));
+
+        const headLossEquip = (inputs.equipDropBar * 100000) / (inputs.density * g);
+
+        
+
+        const totalFriction = (headLossPipe + headLossFit + headLossEquip) * (1 + (inputs.margin/100));
+
+        
+
+        const staticHeadZ = inputs.z2 - inputs.z1;
+
+        const staticHeadP = ((inputs.p2 - inputs.p1) * 100000) / (inputs.density * g);
+
+        const tdh = staticHeadZ + staticHeadP + totalFriction;
+
+
+
+        // Convert TDH (Total Dynamic Head) to Differential Pressure (in selected Unit)
+
+        // P = rho * g * h / conversion_factor
+
+        const pDropBar = (inputs.density * g * tdh) / 100000;
+
+        let pDropDisp = pDropBar; 
+
+        if (inputs.dropUnit === 'psi') {
+
+            pDropDisp = pDropBar * 14.5038;
+
+        } else if (inputs.dropUnit === 'kgcm2') {
+
+            pDropDisp = pDropBar / 0.980665;
+
+        }
+
+
+
+        // NPSHa
+
+        let npsha = "-";
+
+        if (inputs.calcNPSH) {
+
+            const patm = 101325;
+
+            const p1_abs_Pa = (inputs.p1 * 100000) + patm;
+
+            const headP1Abs = p1_abs_Pa / (inputs.density * g);
+
+            const vpHead = (inputs.vp * 1000) / (inputs.density * g);
+
+            const npshaVal = headP1Abs + inputs.z1 - vpHead - totalFriction;
+
+            npsha = npshaVal.toFixed(2);
+
+        }
+
+
+
+        currentResult = {
+
+            ...inputs,
+
+            velocity: velocity.toFixed(2),
+
+            totalFriction: totalFriction.toFixed(2),
+
+            tdh: tdh.toFixed(2),
+
+            npsha: npsha,
+
+            fittingSummary: fittingSummary,
+
+            pDropDisp: pDropDisp.toFixed(2),
+
+            pDropRaw: pDropDisp // Keep raw for summing
+
+        };
+
+
+
+        // Update UI
+
+        document.getElementById('result-area').style.display = 'block';
+
+        document.getElementById('resVel').innerText = currentResult.velocity;
+
+        document.getElementById('resTotalFriction').innerText = currentResult.totalFriction;
+
+        document.getElementById('resTDH').innerText = currentResult.tdh;
+
+        document.getElementById('resPDrop').innerText = currentResult.pDropDisp;
+
+        document.getElementById('resPDropUnit').innerText = inputs.dropUnitText;
+
+        document.getElementById('resNPSHa').innerText = currentResult.npsha;
+
+        
+
+        const cardNPSHa = document.getElementById('cardNPSHa');
+
+        cardNPSHa.style.display = inputs.calcNPSH ? 'block' : 'none';
+
+
+
+        const btnReport = document.getElementById('btnAddReport');
+
+        btnReport.disabled = false;
+
+        btnReport.style.opacity = "1";
+
+        btnReport.style.cursor = "pointer";
+
+        
+
+        document.getElementById('result-area').scrollIntoView({ behavior: 'smooth' });
+
+    }
+
+
+
+    // --- REPORT LOGIC ---
+
+    function addToReport() {
+
+        if (!currentResult) return;
+
+
+
+        reportCount++;
+
+        const tbody = document.getElementById('reportBody');
+
+        const row = tbody.insertRow();
+
+        
+
+        // Save raw values to dataset for easy subtraction later
+
+        row.dataset.friction = currentResult.totalFriction;
+
+        row.dataset.tdh = currentResult.tdh;
+
+        row.dataset.pdrop = currentResult.pDropRaw;
+
+        
+
+        const npshStyle = (currentResult.npsha !== "-" && parseFloat(currentResult.npsha) < 1) ? 'color:red' : 'color:green';
+
+        const displayNPSH = currentResult.npsha === "-" ? "-" : `<span style="${npshStyle}">${currentResult.npsha}</span>`;
+
+
+
+        row.innerHTML = `
+
+            <td>${reportCount}</td>
+
+            <td style="font-weight:bold; color:#0d47a1;">${currentResult.tag}</td>
+
+            <td>${currentResult.fluid} <br><small>(${currentResult.density} kg/m³)</small></td>
+
+            <td>${currentResult.rawFlow} ${currentResult.flowUnitText}</td>
+
+            <td>${currentResult.pipeDisplay}<br><small>L: ${currentResult.length} m</small></td>
+
+            <td><small>P1: ${currentResult.p1}</small><br><small>P2: ${currentResult.p2}</small></td>
+
+            <td style="font-size:11px; line-height:1.2;">${currentResult.fittingSummary}</td>
+
+            <td>${currentResult.totalFriction}</td>
+
+            <td>${currentResult.pDropDisp} <small>${currentResult.dropUnitText}</small></td>
+
+            <td style="font-weight:bold;">${currentResult.tdh}</td>
+
+            <td>${displayNPSH}</td>
+
+            <td class="action-col">
+
+                <button class="btn-row-delete" onclick="deleteReportRow(this)" title="Delete Row">×</button>
+
+            </td>
+
+        `;
+
+
+
+        // Update Grand Totals
+
+        sumFriction += parseFloat(currentResult.totalFriction);
+
+        sumTDH += parseFloat(currentResult.tdh);
+
+        sumPDrop += parseFloat(currentResult.pDropRaw);
+
+        lastPDropUnit = currentResult.dropUnitText;
+
+
+
+        updateFooter();
+
+
+
+        // Show Report Section
+
+        document.getElementById('report-section').style.display = 'block';
+
+        document.getElementById('report-section').scrollIntoView({ behavior: 'smooth' });
+
+
+
+        resetInputs();
+
+    }
+
+    
+
+    function deleteReportRow(btn) {
+
+        const row = btn.closest('tr');
+
+        
+
+        // Subtract values
+
+        sumFriction -= parseFloat(row.dataset.friction) || 0;
+
+        sumTDH -= parseFloat(row.dataset.tdh) || 0;
+
+        sumPDrop -= parseFloat(row.dataset.pdrop) || 0;
+
+        
+
+        // Prevent negative zero quirks
+
+        if(sumFriction < 0.001) sumFriction = 0;
+
+        if(sumTDH < 0.001) sumTDH = 0;
+
+        if(sumPDrop < 0.001) sumPDrop = 0;
+
+
+
+        // Remove row
+
+        row.remove();
+
+        
+
+        // Re-number rows
+
+        const rows = document.querySelectorAll('#reportBody tr');
+
+        rows.forEach((r, i) => {
+
+            r.cells[0].innerText = i + 1;
+
+        });
+
+        reportCount = rows.length;
+
+        
+
+        updateFooter();
+
+        
+
+        // Hide if empty
+
+        if (reportCount === 0) {
+
+             document.getElementById('reportFooter').style.display = 'none';
+
+             // document.getElementById('report-section').style.display = 'none'; 
+
+        }
+
+    }
+
+    
+
+    function updateFooter() {
+
+        const tfoot = document.getElementById('reportFooter');
+
+        tfoot.style.display = 'table-footer-group';
+
+        document.getElementById('totalFrictionSum').innerText = sumFriction.toFixed(2);
+
+        document.getElementById('totalTDHSum').innerText = sumTDH.toFixed(2);
+
+        document.getElementById('totalPDropSum').innerText = sumPDrop.toFixed(2) + " " + lastPDropUnit;
+
+    }
+
+
+
+    function resetInputs() {
+
+        // KEEP Fluid & Flow Rate (as requested)
+
+        // document.getElementById('fluid').value ... kept
+
+        // document.getElementById('flow').value ... kept
+
+        // document.getElementById('flowUnit').value ... kept
+
+
+
+        // RESET other fields
+
+        document.getElementById('tag').value = "";
+
+        document.getElementById('length').value = "0";
+
+        document.getElementById('equipDrop').value = "0"; 
+
+        document.getElementById('margin').value = "5";
+
+
+
+        document.getElementById('p1').value = "0";
+
+        document.getElementById('z1').value = "0";
+
+        document.getElementById('p2').value = "0";
+
+        document.getElementById('z2').value = "0";
+
+        
+
+        // Clear Fittings
+
+        const table = document.getElementById('fittingTable').getElementsByTagName('tbody')[0];
+
+        table.innerHTML = "";
+
+        addFittingRow(); 
+
+
+
+        // Reset Result State
+
+        currentResult = null;
+
+        document.getElementById('result-area').style.display = 'none';
+
+        
+
+        const btnReport = document.getElementById('btnAddReport');
+
+        btnReport.disabled = true;
+
+        btnReport.style.opacity = "0.5";
+
+        btnReport.style.cursor = "not-allowed";
+
+        
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    }
+
+
+
+    function clearReport() {
+
+        if(confirm("Are you sure you want to clear the entire report table?")) {
+
+            document.getElementById('reportBody').innerHTML = "";
+
+            document.getElementById('reportFooter').style.display = 'none';
+
+            document.getElementById('report-section').style.display = 'none';
+
+            
+
+            // Reset counters
+
+            reportCount = 0;
+
+            sumFriction = 0;
+
+            sumTDH = 0;
+
+            sumPDrop = 0;
+
+        }
+
+    }
+
+</script>
+
+
+
+</body>
+
+</html>
