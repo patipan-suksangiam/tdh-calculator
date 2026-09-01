@@ -1,6 +1,11 @@
-# 🏭 TDH & Pressure Drop Calculator Pro (Siamraj Pump System)
+# 📊 Pipe Flow Calculation (Siamraj Pump System)
 
-> 🚀 **ใช้งานโปรแกรมคำนวณออนไลน์ทันที:** [https://patipan-suksangiam.github.io/tdh-calculator/](https://patipan-suksangiam.github.io/tdh-calculator/)
+<div align="center" style="margin: 20px 0;">
+  <a href="https://patipan-suksangiam.github.io/tdh-calculator/" target="_blank" style="background-color: #0d47a1; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 16px; font-weight: bold; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    🚀 คลิกเปิดโปรแกรมคำนวณ (เปิดในแท็บใหม่)
+  </a>
+  <p style="margin-top: 10px; color: #546e7a; font-size: 14px;">(หน้านี้คู่มือยังคงเปิดอยู่เพื่อให้อ่านควบคู่กันได้)</p>
+</div>
 
 Professional System Head and Pressure Drop Calculator developed for engineers and technical sales teams at **Siamraj Public Company Limited**.
 
@@ -37,8 +42,8 @@ Professional System Head and Pressure Drop Calculator developed for engineers an
 
 ## 🚀 How to Use (วิธีใช้งานโปรแกรม)
 
-1. **ดาวน์โหลดหรือเปิดใช้งาน:**
-   - เปิดไฟล์ `TDH Calculator (12 Feb 2026).html` ผ่านเว็บเบราว์เซอร์ (Chrome, Edge, Firefox, Safari) ได้ทันทีโดยไม่ต้องติดตั้งโปรแกรมเสริมใดๆ (Standalone Single-File HTML)
+1. **เปิดใช้งานโปรแกรม:**
+   - คลิกปุ่ม **"🚀 คลิกเปิดโปรแกรมคำนวณ"** ด้านบนเพื่อเปิดโปรแกรมในแท็บใหม่ โดยหน้าคู่มือนี้จะยังคงเปิดอยู่เพื่อให้อ่านคำแนะนำควบคู่กันได้
 2. **กรอกข้อมูลและเลือกของไหล:**
    - กำหนด **Tag Number / Service** (เช่น P-101A)
    - เลือกของไหลจาก Dropdown หรือกรอก Density / Viscosity เอง
